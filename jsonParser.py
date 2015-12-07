@@ -19,7 +19,7 @@ def WriteAddrToList():
                 d[each] =1
                 f.write(each+'\n')
     print len(d)
-
+WriteAddrToList()
 
 #addressinfo = json.load(urllib2.urlopen('http://btc.blockr.io/api/v1/address/info/'+address))
 #print addressinfo['data']['first_tx']['block_nb']
