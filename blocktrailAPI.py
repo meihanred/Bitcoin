@@ -2,23 +2,50 @@ import blocktrail
 import requests.packages.urllib3
 requests.packages.urllib3.disable_warnings()
 
-client = blocktrail.APIClient("a59fcf92aabaa20cfb74c221b66a1202ab44565c", "c81e71b8784f840807efd73b3cb53d9ca0a04bcd")
-address = '1Nb5hT7DqwSHt9uUno68Y4YwDGRnTd36Z8'
-txs = client.address_transactions(address)
-nb_total_txs =  (txs['total'])
-#Calculate the number of pages for transactions
-print "There are " + str(nb_total_txs)+ " transactions in total on address " + address
 
-if nb_total_txs%20 ==0:
-    nb_pages = nb_total_txs/20
-else:
-    nb_pages = nb_total_txs/20 +1
-print "There are " + str(nb_pages) +  " pages of txs"
-#print nb_pages
 
-for x in range(35,nb_pages+1):
-    txs_on_page = client.address_transactions('1Nb5hT7DqwSHt9uUno68Y4YwDGRnTd36Z8',x)
-    print len(txs_on_page['data'])
+def readAddrtoArray():
+    with open('addrlist') as f:
+        lines = f.readlines(1)
+        addresses = []
+        for line in lines:
+            line = line[:len(line)-1]
+            addresses.append(line)
+            if len(line) ==0:
+                continue
+    return addresses
+
+def getTXS(address):
+    client = blocktrail.APIClient("a59fcf92aabaa20cfb74c221b66a1202ab44565c", "c81e71b8784f840807efd73b3cb53d9ca0a04bcd")
+    txs = client.address_transactions(address)
+    nb_total_txs =  (txs['total'])
+    #Calculate the number of pages for transactions
+    print "There are " + str(nb_total_txs)+ " transactions in total on address " + address
+
+    if nb_total_txs%20 ==0:
+        nb_pages = nb_total_txs/20
+    else:
+        nb_pages = nb_total_txs/20 +1
+    #print "There are " + str(nb_pages) +  " pages of txs"
+    #print nb_pages
+
+    # for x in range(35,nb_pages+1):
+    #     txs_on_page = client.address_transactions('1Nb5hT7DqwSHt9uUno68Y4YwDGRnTd36Z8',x)
+    #     print len(txs_on_page['data'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # print(len(client.address_transactions("1dice8EMZmqKvrGE4Qc9bUFf9PX3xaYDp")['data']))
 #
