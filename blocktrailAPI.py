@@ -1,7 +1,7 @@
 import blocktrail
 import requests.packages.urllib3
+import  httplib
 requests.packages.urllib3.disable_warnings()
-
 
 
 def readAddrtoArray():
@@ -18,14 +18,23 @@ def readAddrtoArray():
 def getTXS(address):
     client = blocktrail.APIClient("a59fcf92aabaa20cfb74c221b66a1202ab44565c", "c81e71b8784f840807efd73b3cb53d9ca0a04bcd")
     txs = client.address_transactions(address)
+    address_all = client.address(address)
+    total_received = address_all['received']
+    final_balance = address_all['balance']
     nb_total_txs =  (txs['total'])
     #Calculate the number of pages for transactions
-    print "There are " + str(nb_total_txs)+ " transactions in total on address " + address
+    #print "There are " + str(nb_total_txs)+ " transactions in total on address " + address
 
     if nb_total_txs%20 ==0:
         nb_pages = nb_total_txs/20
     else:
         nb_pages = nb_total_txs/20 +1
+    address_info = [None] * 3
+    address_info[0] = nb_total_txs
+    address_info[1] = total_received
+    address_info[2] = final_balance
+    print "Address: "+ str(address) + " Total_nb_txs is " + str(address_info[0]) + " Tototal received is " + str(address_info[1]) + " Final_balance is " + str(address_info[2])
+    return address_info
     #print "There are " + str(nb_pages) +  " pages of txs"
     #print nb_pages
 
