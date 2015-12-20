@@ -114,21 +114,26 @@ def get_X100():
                                 dd1[eachaddr].append(txs1[2])
                             except httplib.IncompleteRead, e:
                                 continue
-                    # if domain == domain2:
-                    #     dd[domain2].append(eachaddr)
-                    #     if eachaddr not in list(d[domain2]):
-                    #         try:
-                    #             txs2 = getTXS(eachaddr)
-                    #             dd2[eachaddr].append(txs2[0])
-                    #             dd2[eachaddr].append(txs2[1])
-                    #             dd2[eachaddr].append(txs2[2])
-                    #         except httplib.IncompleteRead, e:
-                    #             continue
+                    if domain == domain2:
+                        dd[domain2].append(eachaddr)
+                        if eachaddr not in list(d[domain2]):
+                            d[domain2].append(eachaddr)
+                            try:
+                                txs2 = getTXS(eachaddr)
+                                dd2[eachaddr].append(txs2[0])
+                                dd2[eachaddr].append(txs2[1])
+                                dd2[eachaddr].append(txs2[2])
+                            except httplib.IncompleteRead, e:
+                                continue
 
         except KeyError:
           continue
+    ff1 = open('domain1_addr_TXS','w+')
+    ff2 = open('domain2_addr_TXS','w+')
     for each in sorted(dd1, key=lambda k: dd1[k][0], reverse=True):
-        print (each + "--------" + str(dd1.get(each)[0])) + " Total_received: "+ str(dd1.get(each)[1]) + " The final balance is " + str(dd1.get(each)[2])
+        ff1.write ((each + "--------" + str(dd1.get(each)[0])) + " Total_received: "+ str(dd1.get(each)[1]) + " The final balance is " + str(dd1.get(each)[2]) + '\n')
+    for each in sorted(dd2, key=lambda k: dd2[k][0], reverse=True):
+        ff2.write ((each + "--------" + str(dd2.get(each)[0])) + " Total_received: "+ str(dd2.get(each)[1]) + " The final balance is " + str(dd2.get(each)[2]) + '\n')
 get_X100()
 #print getTXS('1wQKBADNEuEBoXa7WbkG4s19GFizTAzyT')
 #getURLs()
